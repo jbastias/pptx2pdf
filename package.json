@@ -1,0 +1,39 @@
+{
+  "name": "pptx2pdf",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "pptx2pdf": "cli.js"
+  },
+  "scripts": {
+    "start": "npm run compile && node cli.js",
+    "dev": "npm run compile -- --watch",
+    "build": "rm -rf lib && npm run compile",
+    "compile": "babel src -d lib",
+    "test": "mocha --require babel-register src/**/*.spec.js",
+    "test:tdd": "npm test -- -w",
+    "postinstall": "npm run build"
+  },
+  "keywords": [
+    "pptx to pdf",
+    "command-line",
+    "libreoffice"
+  ],
+  "author": {
+    "name": "Jorge Bastias",
+    "email": "jorgebastias@hotmail.com",
+    "url": "https://github.com/jbastias/"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-latest": "^6.24.1",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "mz": "^2.7.0",
+    "yargs": "^10.0.3"
+  }
+}
