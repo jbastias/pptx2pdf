@@ -16,22 +16,41 @@ const argv = require('yargs')
     alias: 'f',
     describe: 'override output filename'
   })
-  .option('libreoffice-path', {
+  .option('libreoffice-bin', {
     alias: 'l',
     describe: 'override the libreoffice path'
   })
+  .option('png', {
+    alias: 'p',
+    describe: 'output png instead',
+    default: false,
+    type: 'boolean'
+  })  
+  .option('remove-pdf', {
+    alias: 'r',
+    describe: 'delete pdf file when outputting png',
+    default: false,
+    type: 'boolean'
+  })  
   .help()
   .version().argv;
 
-if (!(argv.input || argv._)) {
-  console.log(`You must provide an input file`);
+// console.log(argv);
+// console.log(argv.input, argv._[0], argv.png);
+
+if (!(argv.input || argv._[0])) {
+  console.log('Error: You must provide an input file.');
+  process.exit(1);
 }
 
 pptx2pdf({ 
   input: argv.input, 
   outputDir: argv.outputDir, 
   filename: argv.filename,
-  target: argv._[0]
+  target: argv._[0],
+  png: argv.png,
+  removePdf: argv.removePdf,
+  libreofficeBin: argv.libreofficeBin
 })
 .catch(err => {
   console.log(err);
