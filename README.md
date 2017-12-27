@@ -1,6 +1,6 @@
 # pptx2pdf
 
-Converts `pptx` (*.pptx, *.ppt, *.odp) to `pdf` and/or `png`.
+Converts `pptx` (*.pptx, *.ppt, *.odp) to `pdf` and/or `png` OR converts `pdf` to `png`.
 
 ```
 # install globally to use on the command-line
@@ -54,8 +54,10 @@ pptx2pdf input.pptx
 
 # convert to png 
 pptx2pdf input.pptx --png
-```
 
+# convert pdf to png
+pptx2pdf input.pdf
+```
 
 #### Inspiration
 
