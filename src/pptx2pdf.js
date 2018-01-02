@@ -5,7 +5,7 @@ import { exec } from 'mz/child_process';
 export function checkInput(inputPath) {
   return new Promise((resolve, reject) => {
   
-    const ext = path.extname(inputPath);
+    const ext = path.extname(inputPath.toLowerCase());
 
     const extensions = ['.pdf', '.pptx', '.ppt', '.odp'];
 
