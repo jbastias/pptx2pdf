@@ -33,8 +33,8 @@ export default function pptx2pdf({ input, outputDir, filename, target, png, remo
   const outputPng = outputFile.replace(/\.pdf$/, '.png');
   const outputPath = `${outputDir}/${outputFile}`;
   const cmdPdf = `${libreoffice} --headless --invisible --convert-to pdf --outdir ${outputDir} ${inputPath}`;
-  const cmdPng = `${convert} -resize 1200 -density 200  ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
-  const cmdPdf2Png = `${convert} -resize 1200 -density 200  ${inputPath} ${outputDir}/${outputPng}`;
+  const cmdPng = `${convert} -limit memory 0 -limit map 0 -resize 1200 -density 200  ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
+  const cmdPdf2Png = `${convert} -limit memory 0 -limit map 0 -resize 1200 -density 200  ${inputPath} ${outputDir}/${outputPng}`;
 
   return fs.access(inputPath)
     .then(() => checkInput(inputPath))
