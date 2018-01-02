@@ -27,7 +27,9 @@ export default function pptx2pdf({ input, outputDir, filename, target, png, remo
   const convert = 'convert';
 
   const inputPath = input || target;
-  const outputFile = filename || path.basename(inputPath).replace(/\..*$/, '.pdf');
+  const baseFilename = path.basename(inputPath);
+  const ext = baseFilename.split('.').pop();
+  const outputFile = filename || baseFilename.replace(new RegExp(`.${ext}$`), '.pdf');
   const outputPng = outputFile.replace(/\.pdf$/, '.png');
   const outputPath = `${outputDir}/${outputFile}`;
   const cmdPdf = `${libreoffice} --headless --invisible --convert-to pdf --outdir ${outputDir} ${inputPath}`;

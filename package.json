@@ -1,6 +1,6 @@
 {
   "name": "pptx2pdf",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Export PowerPoint to PDF and/or PNG",
   "main": "index.js",
   "bin": {
