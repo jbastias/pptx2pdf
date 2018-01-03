@@ -32,11 +32,12 @@ const argv = require('yargs')
     default: false,
     type: 'boolean'
   })  
+  .option('log-dir', {
+    describe: 'log directory',
+    default: '.',
+  })  
   .help()
   .version().argv;
-
-// console.log(argv);
-// console.log(argv.input, argv._[0], argv.png);
 
 if (!(argv.input || argv._[0])) {
   console.log('Error: You must provide an input file.');
@@ -50,7 +51,8 @@ pptx2pdf({
   target: argv._[0],
   png: argv.png,
   removePdf: argv.removePdf,
-  libreofficeBin: argv.libreofficeBin
+  libreofficeBin: argv.libreofficeBin,
+  logDir: argv.logDir
 })
 .catch(err => {
   console.log(err);
