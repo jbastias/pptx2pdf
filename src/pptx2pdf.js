@@ -33,20 +33,21 @@ export function run(cmd, dir = '.') {
     debug(`_cmd: ${_cmd}, _args: ${JSON.stringify(_args)}`);
   
     const logStream = fs.createWriteStream(`${dir}/pptx2pdf.log`, { flags: 'a' });
-  
+    logStream.write(`\ncommand: ${cmd}\n`, 'utf8');
+
     const proc = spawn(_cmd, _args, { detached: false });
   
     logStream.write(`pid: ${proc.pid}\n`, 'utf8');
   
     proc.on('error', function (err) {
-      debug(`child process got an error: ${err}`);
-      logStream.write(`child process got an error: ${err}`, 'utf8');
+      debug(`child process ${_cmd} got an error: ${err}`);
+      logStream.write(`child process ${_cmd} got an error: ${err}`, 'utf8');
       reject(err);
     })
     .on('close', (code) => {
       const status = code === 0 ? 'SUCCESS' : 'ERROR';
-      debug(`child process exited with code: ${code} and status: ${status}`);
-      logStream.end(`status: ${status}\n`, 'utf8');
+      debug(`child process ${_cmd} exited with code: ${code} and status: ${status}`);
+      logStream.end(`${_cmd} status: ${status}\n`, 'utf8');
       resolve(code);
     })
     .stdout.on('data', (data) => {
@@ -76,10 +77,10 @@ export default function pptx2pdf({ input, outputDir, filename, target, png, remo
   const outputPng = outputFile.replace(/\.pdf$/, '.png');
   const outputPath = `${outputDir}/${outputFile}`;
   const cmdPdf = `${libreoffice} --headless --invisible --convert-to pdf --outdir ${outputDir} ${inputPath}`;
-  // const cmdPng = `${convert} -limit memory 0 -limit map 0 -resize 1200 -density 200 ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
-  const cmdPng = `${convert} -resize 1200 -density 200 ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
-  // const cmdPdf2Png = `${convert} -limit memory 0 -limit map 0 -resize 1200 -density 200 ${inputPath} ${outputDir}/${outputPng}`;
-  const cmdPdf2Png = `${convert} -resize 1200 -density 200 ${inputPath} ${outputDir}/${outputPng}`;
+  // const cmdPng = `${convert} -verbose -limit memory 0 -limit map 0 -resize 1200 -density 200 ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
+  const cmdPng = `${convert} -verbose -resize 1200 -density 200 ${outputPath} ${outputPath.replace(/\.pdf$/, '')}.png`;
+  // const cmdPdf2Png = `${convert} -verbose -limit memory 0 -limit map 0 -resize 1200 -density 200 ${inputPath} ${outputDir}/${outputPng}`;
+  const cmdPdf2Png = `${convert} -verbose -resize 1200 -density 200 ${inputPath} ${outputDir}/${outputPng}`;
 
   return fs.access(inputPath)
     .then(() => checkInput(inputPath))
